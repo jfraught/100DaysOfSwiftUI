@@ -30,8 +30,10 @@ struct ContentView: View {
                     ForEach(usedWords, id: \.self) { word in
                         HStack {
                             Image(systemName: "\(word.count).circle")
-                            Text(word)                            
+                            Text(word)
                         }
+                        .accessibilityElement()
+                        .accessibilityLabel("\(word), \(word.count) letters")
                     }
                 }
             }
@@ -64,7 +66,7 @@ struct ContentView: View {
             wordError(title: "Word too short", message: "Words must be at least four letters long.")
             return
         }
-
+        
         guard answer != rootWord else {
             wordError(title: "Nice try…", message: "You can't use your starting word!")
             return
@@ -79,7 +81,7 @@ struct ContentView: View {
             wordError(title: "Word not possible", message: "You can't spell that word from '\(rootWord)'!")
             return
         }
-
+        
         guard isReal(word: answer) else {
             wordError(title: "Word not recognized", message: "You can't just make them up, you know!")
             return
@@ -88,7 +90,7 @@ struct ContentView: View {
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
-
+        
         score += answer.count
         newWord = ""
     }
@@ -131,7 +133,7 @@ struct ContentView: View {
         let checker = UITextChecker()
         let range = NSRange(location: 0, length: word.utf16.count)
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
-
+        
         return misspelledRange.location == NSNotFound
     }
     
