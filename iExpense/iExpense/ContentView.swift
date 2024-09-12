@@ -10,6 +10,7 @@ import SwiftUI
 
 @Model
 class ExpenseItem {
+    let uuid = UUID()
     let name: String
     let type: String
     let amount: Double
